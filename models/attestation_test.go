@@ -69,7 +69,5 @@ func getLongString(len int) string {
 	for i := 0; i <= iterations; i++ {
 		sb.WriteString(str)
 	}
-
-	fmt.Print(sb.String())
 	return sb.String()
 }
