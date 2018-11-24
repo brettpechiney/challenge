@@ -1,0 +1,10 @@
+[database]
+prefix = "postgresql://"
+user = "maxroach"
+password = "maxroach"
+host = "localhost"
+port = 26257
+name = "challenge"
+
+[logging]
+level = "INFO"
