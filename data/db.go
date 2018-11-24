@@ -57,6 +57,5 @@ func connectionString(cfg *config.Challenge) string {
 	sb.WriteString("/")
 	sb.WriteString(cfg.DatabaseName())
 	sb.WriteString("?sslmode=disable")
-
 	return sb.String()
 }

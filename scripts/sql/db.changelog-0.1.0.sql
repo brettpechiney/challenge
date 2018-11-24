@@ -4,7 +4,7 @@
 CREATE DATABASE IF NOT EXISTS challenge;
 SET DATABASE = challenge;
 
--- TODO: remove this if you can find a Docker workaround.
+-- TODO: remove this if you can find a workaround.
 CREATE USER IF NOT EXISTS maxroach;
 GRANT ALL ON DATABASE challenge TO maxroach;
 
@@ -26,13 +26,11 @@ CREATE TABLE challenge_user (
 DROP TABLE IF EXISTS attestation CASCADE;
 CREATE TABLE attestation (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-	claimant UUID NOT NULL,
+	claimant_id UUID NOT NULL,
 	claim VARCHAR(100) NOT NULL,
-	created_by VARCHAR(20) NOT NULL,
-	created_on TIMESTAMPTZ NOT NULL DEFAULT statement_timestamp(),
-	INDEX (claimant),
+	INDEX (claimant_id),
 	CONSTRAINT fk_attestation_challenge_user
-		FOREIGN KEY (claimant)
+		FOREIGN KEY (claimant_id)
 		REFERENCES challenge_user (id)
 );
 -- rollback DROP TABLE attestation CASCADE;
