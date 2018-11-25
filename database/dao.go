@@ -24,7 +24,7 @@ type Tx struct {
 
 var ctx = context.Background()
 
-// NewDAO ceates a database object, associates it with the
+// NewDAO creates a database object, associates it with the
 // Postgres driver, and validates the database connection.
 func NewDAO(cfg *config.Challenge) (*DAO, error) {
 	sourceName := connectionString(cfg)
