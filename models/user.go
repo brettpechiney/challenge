@@ -4,7 +4,7 @@ import "time"
 
 // A User represents an end-user of Challenge.
 type User struct {
-	ID        string    `json:"id"`
+	ID        string    `json:"id" sql:",type:uuid"`
 	FirstName string    `json:"firstName"`
 	LastName  string    `json:"lastName"`
 	Username  string    `json:"username"`
@@ -18,6 +18,7 @@ type NewUser struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Username  string `json:"username"`
+	Password  string `json:"password"`
 	Role      string `json:"role"`
 }
 

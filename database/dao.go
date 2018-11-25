@@ -1,4 +1,4 @@
-package data
+package database
 
 import (
 	"context"
@@ -12,23 +12,21 @@ import (
 	"github.com/brettpechiney/challenge/config"
 )
 
-// The DB struct provides application-level context to the
-// database handle.
-type DB struct {
+// DAO provides application-level context to the database handle.
+type DAO struct {
 	*sql.DB
 }
 
-// The Tx struct provides application-level context to the
-// transaction handle.
+// Tx provides application-level context to the transaction handle.
 type Tx struct {
 	*sql.Tx
 }
 
 var ctx = context.Background()
 
-// New ceates a database object, associates it with the
+// NewDAO ceates a database object, associates it with the
 // Postgres driver, and validates the database connection.
-func New(cfg *config.Challenge) (*DB, error) {
+func NewDAO(cfg *config.Challenge) (*DAO, error) {
 	sourceName := connectionString(cfg)
 
 	conn, err := sql.Open("postgres", sourceName)
@@ -42,7 +40,7 @@ func New(cfg *config.Challenge) (*DB, error) {
 		conn.Close()
 		return nil, errors.Wrapf(err, "failed to ping CockroachDB")
 	}
-	return &DB{conn}, nil
+	return &DAO{conn}, nil
 }
 
 func connectionString(cfg *config.Challenge) string {

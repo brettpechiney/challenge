@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/brettpechiney/challenge/data"
 	"log"
 
 	"github.com/brettpechiney/challenge/config"
+	"github.com/brettpechiney/challenge/database"
 )
 
 var (
@@ -18,10 +18,10 @@ func main() {
 		log.Fatalf("failed to load config: %v", err)
 	}
 
-	db, err := data.New(cfg)
+	dao, err := database.NewDAO(cfg)
 	if err != nil {
 		log.Fatalf("failed to initialize database: %v", err)
 	}
 
-	db.Close()
+	dao.Close()
 }

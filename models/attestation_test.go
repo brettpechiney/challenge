@@ -10,6 +10,7 @@ import (
 
 func TestNewAttestationValidation(t *testing.T) {
 	const ClaimantID = "testID"
+	const AttestorID = "testID"
 	const Claim = "testClaim"
 	longString := getLongString(100)
 	testCases := []struct {
@@ -21,6 +22,7 @@ func TestNewAttestationValidation(t *testing.T) {
 			"ValidModel",
 			&models.NewAttestation{
 				ClaimantID: ClaimantID,
+				AttestorID: AttestorID,
 				Claim:      Claim,
 			},
 			false,
@@ -28,7 +30,16 @@ func TestNewAttestationValidation(t *testing.T) {
 		{
 			"MissingClaimantID",
 			&models.NewAttestation{
-				Claim: Claim,
+				AttestorID: AttestorID,
+				Claim:      Claim,
+			},
+			true,
+		},
+		{
+			"MissingAttestorID",
+			&models.NewAttestation{
+				ClaimantID: ClaimantID,
+				Claim:      Claim,
 			},
 			true,
 		},
