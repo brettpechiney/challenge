@@ -1,4 +1,4 @@
-package models
+package challenge
 
 // A UserAttestation shows an attestation claim for a user as well as the
 // full name of the attestation authority backing it.

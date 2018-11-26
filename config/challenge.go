@@ -54,36 +54,10 @@ func (i *Challenge) Set(key string, value interface{}) {
 	i.v.Set(key, value)
 }
 
-// DatabasePrefix returns the prefix of the database that stores Challenge
-// application information.
-func (i *Challenge) DatabasePrefix() string {
-	return i.v.GetString(param.DatabasePrefix)
-}
-
-// DatabaseUser returns the database user associated with the
-// credentials.
-func (i *Challenge) DatabaseUser() string {
-	return i.v.GetString(param.DatabaseUser)
-}
-
-// DatabasePassword returns the database credentials.
-func (i *Challenge) DatabasePassword() string {
-	return i.v.GetString(param.DatabasePassword)
-}
-
-// DatabaseHost returns the host the database is running on.
-func (i *Challenge) DatabaseHost() string {
-	return i.v.GetString(param.DatabaseHost)
-}
-
-// DatabasePort returns the port the database is listening on.
-func (i *Challenge) DatabasePort() string {
-	return i.v.GetString(param.DatabasePort)
-}
-
-// DatabaseName returns the name of the database.
-func (i *Challenge) DatabaseName() string {
-	return i.v.GetString(param.DatabaseName)
+// DataSource returns the connection string of the database that
+// stores Challenge application information.
+func (i *Challenge) DataSource() string {
+	return i.v.GetString(param.DataSource)
 }
 
 // LoggingLevel returns the application's logging level.
@@ -92,14 +66,10 @@ func (i *Challenge) LoggingLevel() string {
 }
 
 func (i *Challenge) setDefaults() {
-	i.v.SetDefault(param.DatabasePrefix, "postgresql://")
-	i.v.SetDefault(param.DatabaseUser, "maxroach")
-	i.v.SetDefault(param.DatabasePassword, "maxroach")
-	i.v.SetDefault(param.DatabaseHost, "localhost")
-	i.v.SetDefault(param.DatabasePort, 26257)
-	i.v.SetDefault(param.DatabaseName, "challenge")
-
-	i.v.SetDefault(param.LoggingLevel, "INFO")
+	const Source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
+	const Level = "INFO"
+	i.v.SetDefault(param.DataSource, Source)
+	i.v.SetDefault(param.LoggingLevel, Level)
 }
 
 func (i *Challenge) setupEnvVarReader() {

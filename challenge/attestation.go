@@ -1,4 +1,4 @@
-package models
+package challenge
 
 // Attestation represents a verified claim.
 type Attestation struct {

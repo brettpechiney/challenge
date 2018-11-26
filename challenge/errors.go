@@ -1,4 +1,4 @@
-package models
+package challenge
 
 import (
 	"fmt"

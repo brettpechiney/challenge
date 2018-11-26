@@ -1,4 +1,4 @@
-package models
+package challenge
 
 import "time"
 
@@ -47,6 +47,9 @@ func (u *NewUser) OK() error {
 	}
 	if len(u.Username) > 50 {
 		return &errMaxLengthExceeded{"Username", 50}
+	}
+	if len(u.Password) == 0 {
+		return errMissingField("Password")
 	}
 	if len(u.Role) == 0 {
 		return errMissingField("Role")

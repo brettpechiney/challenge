@@ -1,30 +1,32 @@
-package database
+package challenge
 
 import (
-	"github.com/brettpechiney/challenge/models"
+	"github.com/pkg/errors"
+
+	"github.com/brettpechiney/challenge/cockroach"
 )
 
 // AttestationRepository provides an interface to extract information
 // about an Attestation.
 type AttestationRepository interface {
-	Insert(attestation models.NewAttestation) (string, error)
-	Find(id string) (*models.Attestation, error)
-	FindByUser(fname string, lname string) ([]*models.UserAttestation, error)
+	Insert(attestation *NewAttestation) (string, error)
+	Find(id string) (*Attestation, error)
+	FindByUser(fname string, lname string) ([]*UserAttestation, error)
 }
 
-// AttestationRepo abstracts the DAO and implements the
+// attestationRepo abstracts the DAO and implements the
 // AttestationRepository interface.
-type AttestationRepo struct {
-	dao *DAO
+type attestationRepo struct {
+	dao *cockroach.DAO
 }
 
-// NewAttestationRepo creates an AttestationRepo.
-func NewAttestationRepo(dao *DAO) *AttestationRepo {
-	return &AttestationRepo{dao}
+// NewAttestationRepo creates an attestationRepo.
+func NewAttestationRepo(dao *cockroach.DAO) AttestationRepository {
+	return attestationRepo{dao}
 }
 
 // Insert adds an Attestation to the database.
-func (r *AttestationRepo) Insert(attestation *models.NewAttestation) (string, error) {
+func (r attestationRepo) Insert(attestation *NewAttestation) (string, error) {
 	const Query = `
 		INSERT INTO attestation (
 			claimant_id,
@@ -44,13 +46,13 @@ func (r *AttestationRepo) Insert(attestation *models.NewAttestation) (string, er
 		attestation.Claim,
 	).Scan(&id)
 	if err != nil {
-		return "", err
+		return "", errors.Wrapf(err, "failed to insert attestation")
 	}
 	return id, nil
 }
 
 // Find retrieves an Attestation by id.
-func (r *AttestationRepo) Find(id string) (*models.Attestation, error) {
+func (r attestationRepo) Find(id string) (*Attestation, error) {
 	const Query = `
 		SELECT id,
 			   claimant_id,
@@ -58,7 +60,7 @@ func (r *AttestationRepo) Find(id string) (*models.Attestation, error) {
 			   claim
 		FROM   attestation
 		WHERE  id = $1;`
-	var a models.Attestation
+	var a Attestation
 	err := r.dao.
 		QueryRow(Query, id).
 		Scan(
@@ -68,14 +70,14 @@ func (r *AttestationRepo) Find(id string) (*models.Attestation, error) {
 			&a.Claim,
 		)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to retrieve attestation")
 	}
 	return &a, nil
 }
 
 // FindByUser returns all Attestation claims and their attestors that belong to
 // the user with the specified first and last name.
-func (r *AttestationRepo) FindByUser(fname string, lname string) ([]*models.UserAttestation, error) {
+func (r attestationRepo) FindByUser(fname string, lname string) ([]*UserAttestation, error) {
 	const Query = `
 		WITH attestations AS (
 		  SELECT a.id,
@@ -95,15 +97,15 @@ func (r *AttestationRepo) FindByUser(fname string, lname string) ([]*models.User
 	rows, err := r.dao.Query(Query, fname, lname)
 	defer rows.Close()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to retrieve user attestations")
 	}
 
-	var attestations []*models.UserAttestation
+	var attestations []*UserAttestation
 	for rows.Next() {
-		var a models.UserAttestation
+		var a UserAttestation
 		err := rows.Scan(&a.Claim, &a.AttestorName)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(err, "failed to scan user attestation")
 		}
 		attestations = append(attestations, &a)
 	}

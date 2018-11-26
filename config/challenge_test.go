@@ -2,12 +2,14 @@ package config_test
 
 import (
 	"fmt"
-	"github.com/brettpechiney/challenge/config"
 	"testing"
+
+	"github.com/brettpechiney/challenge/config"
 )
 
 // Test getters by comparing against default values.
 func TestGetters(t *testing.T) {
+	const Source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
 	cfg := config.Defaults()
 	testCases := []struct {
 		Name         string
@@ -15,34 +17,9 @@ func TestGetters(t *testing.T) {
 		Expected     string
 	}{
 		{
-			"DatabasePrefix",
-			cfg.DatabasePrefix,
-			"postgresql://",
-		},
-		{
-			"DatabaseUser",
-			cfg.DatabaseUser,
-			"maxroach",
-		},
-		{
-			"DatabasePassword",
-			cfg.DatabasePassword,
-			"maxroach",
-		},
-		{
-			"DatabaseHost",
-			cfg.DatabaseHost,
-			"localhost",
-		},
-		{
-			"DatabasePort",
-			cfg.DatabasePort,
-			"26257",
-		},
-		{
-			"DatabaseName",
-			cfg.DatabaseName,
-			"challenge",
+			"DataSource",
+			cfg.DataSource,
+			Source,
 		},
 		{
 			"LoggingLevel",

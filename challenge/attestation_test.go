@@ -1,11 +1,12 @@
-package models_test
+package challenge_test
 
 import (
 	"fmt"
-	"github.com/brettpechiney/challenge/models"
 	"math"
 	"strings"
 	"testing"
+
+	"github.com/brettpechiney/challenge/challenge"
 )
 
 func TestNewAttestationValidation(t *testing.T) {
@@ -15,12 +16,12 @@ func TestNewAttestationValidation(t *testing.T) {
 	longString := getLongString(100)
 	testCases := []struct {
 		Name      string
-		TestModel *models.NewAttestation
+		TestModel *challenge.NewAttestation
 		ShouldErr bool
 	}{
 		{
 			"ValidModel",
-			&models.NewAttestation{
+			&challenge.NewAttestation{
 				ClaimantID: ClaimantID,
 				AttestorID: AttestorID,
 				Claim:      Claim,
@@ -29,7 +30,7 @@ func TestNewAttestationValidation(t *testing.T) {
 		},
 		{
 			"MissingClaimantID",
-			&models.NewAttestation{
+			&challenge.NewAttestation{
 				AttestorID: AttestorID,
 				Claim:      Claim,
 			},
@@ -37,7 +38,7 @@ func TestNewAttestationValidation(t *testing.T) {
 		},
 		{
 			"MissingAttestorID",
-			&models.NewAttestation{
+			&challenge.NewAttestation{
 				ClaimantID: ClaimantID,
 				Claim:      Claim,
 			},
@@ -45,14 +46,14 @@ func TestNewAttestationValidation(t *testing.T) {
 		},
 		{
 			"MissingClaim",
-			&models.NewAttestation{
+			&challenge.NewAttestation{
 				ClaimantID: ClaimantID,
 			},
 			true,
 		},
 		{
 			"ClaimLengthGreaterThan100",
-			&models.NewAttestation{
+			&challenge.NewAttestation{
 				ClaimantID: ClaimantID,
 				Claim:      longString,
 			},

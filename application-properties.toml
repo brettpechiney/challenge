@@ -1,10 +1,5 @@
-[database]
-prefix = "postgresql://"
-user = "maxroach"
-password = "maxroach"
-host = "localhost"
-port = 26257
-name = "challenge"
+[data]
+source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
 
 [logging]
 level = "INFO"

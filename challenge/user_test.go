@@ -1,87 +1,105 @@
-package models_test
+package challenge_test
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/brettpechiney/challenge/models"
+	"github.com/brettpechiney/challenge/challenge"
 )
 
 func TestNewUserValidation(t *testing.T) {
 	const FirstName = "FirstName"
 	const LastName = "LastName"
 	const Username = "Username"
+	const Password = "Password"
 	const Role = "customer"
 	const LongString string = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	testCases := []struct {
 		Name      string
-		TestModel *models.NewUser
+		TestModel *challenge.NewUser
 		ShouldErr bool
 	}{
 		{
 			"ValidModel",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: FirstName,
 				LastName:  LastName,
 				Username:  Username,
+				Password:  Password,
 				Role:      Role,
 			},
 			false,
 		},
 		{
 			"MissingFirstName",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: "",
 				LastName:  LastName,
 				Username:  Username,
+				Password:  Password,
 				Role:      Role,
 			},
 			true,
 		},
 		{
 			"FirstNameLengthGreaterThan50",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: LongString,
 				LastName:  LastName,
 				Username:  Username,
+				Password:  Password,
 				Role:      Role,
 			},
 			true,
 		},
 		{
 			"MissingLastName",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: FirstName,
 				Username:  Username,
+				Password:  Password,
 				Role:      Role,
 			},
 			true,
 		},
 		{
 			"LastNameLengthGreaterThan50",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: FirstName,
 				LastName:  LongString,
 				Username:  Username,
+				Password:  Password,
 				Role:      Role,
 			},
 			true,
 		},
 		{
 			"MissingUSername",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: FirstName,
 				LastName:  LastName,
+				Password:  Password,
 				Role:      Role,
 			},
 			true,
 		},
 		{
 			"UsernameLengthGreaterThan50",
-			&models.NewUser{
+			&challenge.NewUser{
 				FirstName: FirstName,
 				LastName:  LastName,
 				Username:  LongString,
+				Password:  Password,
+				Role:      Role,
+			},
+			true,
+		},
+		{
+			"MissingPassword",
+			&challenge.NewUser{
+				FirstName: FirstName,
+				LastName:  LastName,
+				Username:  Username,
 				Role:      Role,
 			},
 			true,

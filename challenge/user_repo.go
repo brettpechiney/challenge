@@ -1,29 +1,31 @@
-package database
+package challenge
 
 import (
-	"github.com/brettpechiney/challenge/models"
+	"github.com/pkg/errors"
+
+	"github.com/brettpechiney/challenge/cockroach"
 )
 
 // UserRepository provides an interface to extract information about a User.
 type UserRepository interface {
-	Insert(user *models.NewUser) (string, error)
-	Find(id string) (*models.User, error)
-	FindAll() ([]*models.User, error)
-	Update(user *models.User) (*models.User, error)
+	Insert(user *NewUser) (string, error)
+	Find(id string) (*User, error)
+	FindAll() ([]*User, error)
+	Update(user *User) (*User, error)
 }
 
-// UserRepo abstracts the DAO and implements the UserRepository interface.
-type UserRepo struct {
-	dao *DAO
+// userRepo abstracts the DAO and implements the UserRepository interface.
+type userRepo struct {
+	dao *cockroach.DAO
 }
 
-// NewUserRepo creates a UserRepo.
-func NewUserRepo(dao *DAO) *UserRepo {
-	return &UserRepo{dao}
+// NewUserRepo creates a userRepo.
+func NewUserRepo(dao *cockroach.DAO) UserRepository {
+	return userRepo{dao}
 }
 
 // Insert adds a User to the database.
-func (r *UserRepo) Insert(user *models.NewUser) (string, error) {
+func (r userRepo) Insert(user *NewUser) (string, error) {
 	const Query = `
 		INSERT INTO challenge_user (
 			first_name,
@@ -49,13 +51,13 @@ func (r *UserRepo) Insert(user *models.NewUser) (string, error) {
 		user.Role,
 	).Scan(&id)
 	if err != nil {
-		return "", err
+		return "", errors.Wrapf(err, "failed to insert user")
 	}
 	return id, nil
 }
 
 // Find retrieves a user by id.
-func (r *UserRepo) Find(id string) (*models.User, error) {
+func (r userRepo) Find(id string) (*User, error) {
 	const Query = `
 		SELECT id,
 			   first_name,
@@ -65,7 +67,7 @@ func (r *UserRepo) Find(id string) (*models.User, error) {
 			   last_login
 		FROM   challenge_user
 		WHERE  id = $1;`
-	var u models.User
+	var u User
 	err := r.dao.
 		QueryRow(Query, id).
 		Scan(
@@ -77,13 +79,13 @@ func (r *UserRepo) Find(id string) (*models.User, error) {
 			&u.LastLogin,
 		)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to retrieve user")
 	}
 	return &u, nil
 }
 
 // FindAll retrieves all users.
-func (r *UserRepo) FindAll() ([]*models.User, error) {
+func (r userRepo) FindAll() ([]*User, error) {
 	const Query = `
 		SELECT id,
 			   first_name,
@@ -95,12 +97,12 @@ func (r *UserRepo) FindAll() ([]*models.User, error) {
 	rows, err := r.dao.Query(Query)
 	defer rows.Close()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to retrieve users")
 	}
 
-	var users []*models.User
+	var users []*User
 	for rows.Next() {
-		var u models.User
+		var u User
 		err := rows.Scan(
 			&u.ID,
 			&u.FirstName,
@@ -110,7 +112,7 @@ func (r *UserRepo) FindAll() ([]*models.User, error) {
 			&u.LastLogin,
 		)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(err, "failed to scan user")
 		}
 		users = append(users, &u)
 	}
@@ -118,7 +120,7 @@ func (r *UserRepo) FindAll() ([]*models.User, error) {
 }
 
 // Update makes changes to a user.
-func (r *UserRepo) Update(user *models.User) (*models.User, error) {
+func (r userRepo) Update(user *User) (*User, error) {
 	const Query = `
 		UPDATE    challenge_user
 		SET       first_name = $1,
@@ -132,7 +134,7 @@ func (r *UserRepo) Update(user *models.User) (*models.User, error) {
 				  username,
 				  role,
 				  last_login;`
-	var u models.User
+	var u User
 	err := r.dao.QueryRow(
 		Query,
 		user.FirstName,
