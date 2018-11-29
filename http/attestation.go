@@ -10,7 +10,7 @@ import (
 )
 
 // HandleCreateAttestationV1 creates an attestation for a user.
-func (s *server) HandleCreateAttestationV1() http.HandlerFunc {
+func (s server) HandleCreateAttestationV1() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var a challenge.NewAttestation
 		if err := DecodeRequest(r, &a); err != nil {
@@ -27,7 +27,7 @@ func (s *server) HandleCreateAttestationV1() http.HandlerFunc {
 }
 
 // HandleFindAttestationsByUserV1 finds all attestations for a user.
-func (s *server) HandleFindAttestationsByUserV1() http.HandlerFunc {
+func (s server) HandleFindAttestationsByUserV1() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		ua, err := s.attestRepo.FindByUser(vars["fname"], vars["lname"])

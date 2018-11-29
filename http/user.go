@@ -7,7 +7,7 @@ import (
 
 // HandleFindAllUsersV1 finds all users if the requesting user
 // is an administrator.
-func (s *server) HandleFindAllUsersV1() http.HandlerFunc {
+func (s server) HandleFindAllUsersV1() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		users, err := s.usrRepo.FindAll()
 		if err != nil {

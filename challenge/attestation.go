@@ -17,7 +17,7 @@ type NewAttestation struct {
 }
 
 // OK validates the fields on a NewUser.
-func (u *NewAttestation) OK() error {
+func (u NewAttestation) OK() error {
 	if len(u.ClaimantID) == 0 {
 		return errMissingField("ClaimantID")
 	}

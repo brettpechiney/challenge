@@ -11,6 +11,7 @@ type UserRepository interface {
 	Insert(user *NewUser) (string, error)
 	Find(id string) (*User, error)
 	FindAll() ([]*User, error)
+	GetPassword(username string) (string, error)
 	Update(user *User) (*User, error)
 }
 
@@ -117,6 +118,20 @@ func (r userRepo) FindAll() ([]*User, error) {
 		users = append(users, &u)
 	}
 	return users, nil
+}
+
+// GetPassword returns the password for the user with the specified username.
+func (r userRepo) GetPassword(username string) (string, error) {
+	const Query = `
+		SELECT password
+		FROM   challenge_user
+		WHERE  username = $1;`
+	var pw string
+	err := r.dao.QueryRow(Query, username).Scan(&pw)
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to retrieve password")
+	}
+	return pw, nil
 }
 
 // Update makes changes to a user.

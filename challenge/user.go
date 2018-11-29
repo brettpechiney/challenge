@@ -8,6 +8,7 @@ type User struct {
 	FirstName string    `json:"firstName"`
 	LastName  string    `json:"lastName"`
 	Username  string    `json:"username"`
+	Password  string    `json:"password"`
 	Role      string    `json:"role"`
 	LastLogin time.Time `json:"lastLogin"`
 }
@@ -29,7 +30,7 @@ var validRoles = map[string]bool{
 }
 
 // OK validates the fields on a NewUser.
-func (u *NewUser) OK() error {
+func (u NewUser) OK() error {
 	if len(u.FirstName) == 0 {
 		return errMissingField("FirstName")
 	}
