@@ -65,11 +65,18 @@ func (i *Challenge) LoggingLevel() string {
 	return i.v.GetString(param.LoggingLevel)
 }
 
+// SigningKey returns the application's JWT signing key.
+func (i *Challenge) SigningKey() string {
+	return i.v.GetString(param.SigningKey)
+}
+
 func (i *Challenge) setDefaults() {
 	const Source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
 	const Level = "INFO"
+	const SigningKey = "supersecretkey"
 	i.v.SetDefault(param.DataSource, Source)
 	i.v.SetDefault(param.LoggingLevel, Level)
+	i.v.SetDefault(param.SigningKey, SigningKey)
 }
 
 func (i *Challenge) setupEnvVarReader() {

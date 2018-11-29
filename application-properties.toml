@@ -3,3 +3,6 @@ source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
 
 [logging]
 level = "INFO"
+
+[jwt]
+signingKey = "supersecretkey"

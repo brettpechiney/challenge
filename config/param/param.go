@@ -4,4 +4,5 @@ package param
 const (
 	DataSource          = "data.source"
 	LoggingLevel string = "logging.level"
+	SigningKey   string = "jwt.signingKey"
 )

@@ -17,14 +17,16 @@ type server struct {
 	r          *mux.Router
 	usrRepo    challenge.UserRepository
 	attestRepo challenge.AttestationRepository
+	signingKey string
 }
 
 // NewServer returns a new instance of a server object.
-func NewServer(userRepo challenge.UserRepository, attestRepo challenge.AttestationRepository) Server {
+func NewServer(userRepo challenge.UserRepository, attestRepo challenge.AttestationRepository, signingKey string) Server {
 	router := mux.NewRouter()
 	return &server{
 		r:          router,
 		usrRepo:    userRepo,
 		attestRepo: attestRepo,
+		signingKey: signingKey,
 	}
 }

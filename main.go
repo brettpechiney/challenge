@@ -27,6 +27,7 @@ func main() {
 
 	userRepo := challenge.NewUserRepo(dao)
 	attestationRepo := challenge.NewAttestationRepo(dao)
-	server := http.NewServer(userRepo, attestationRepo)
+	signingKey := cfg.SigningKey()
+	server := http.NewServer(userRepo, attestationRepo, signingKey)
 	server.Start()
 }

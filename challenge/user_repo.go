@@ -10,6 +10,7 @@ import (
 type UserRepository interface {
 	Insert(user *NewUser) (string, error)
 	Find(id string) (*User, error)
+	FindByUsername(username string) (*User, error)
 	FindAll() ([]*User, error)
 	GetPassword(username string) (string, error)
 	Update(user *User) (*User, error)
@@ -71,6 +72,34 @@ func (r userRepo) Find(id string) (*User, error) {
 	var u User
 	err := r.dao.
 		QueryRow(Query, id).
+		Scan(
+			&u.ID,
+			&u.FirstName,
+			&u.LastName,
+			&u.Username,
+			&u.Role,
+			&u.LastLogin,
+		)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to retrieve user")
+	}
+	return &u, nil
+}
+
+// FindByUsername retrieves a user by username.
+func (r userRepo) FindByUsername(username string) (*User, error) {
+	const Query = `
+		SELECT id,
+			   first_name,
+			   last_name,
+			   username,
+			   role,
+			   last_login
+		FROM   challenge_user
+		WHERE  username = $1;`
+	var u User
+	err := r.dao.
+		QueryRow(Query, username).
 		Scan(
 			&u.ID,
 			&u.FirstName,
