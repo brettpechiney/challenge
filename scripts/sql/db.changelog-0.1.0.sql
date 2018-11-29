@@ -22,6 +22,20 @@ CREATE TABLE challenge_user (
   ) NOT NULL,
   last_login TIMESTAMPTZ NOT NULL DEFAULT Statement_timestamp()
 );
+
+INSERT INTO challenge_user (
+  first_name,
+  last_name,
+  username,
+  password,
+  role
+) VALUES (
+  'Brett',
+  'Pechiney',
+  'bpechiney',
+  '$2a$14$3yGTgnOiTW47DQo2PNHLi.KRCKpMfkg19trhrM5DjyWVwPgSAYFei',
+  'administrator'
+);
 -- rollback DROP TABLE challenge_user CASCADE;
 
 DROP TABLE IF EXISTS attestation CASCADE;

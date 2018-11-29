@@ -65,7 +65,7 @@ func CheckAuth(role string, secret string) Adapter {
 			}
 
 			userRole := claims["role"].(string)
-			if userRole != role {
+			if userRole != "administrator" && userRole != role {
 				RespondWithError(w, http.StatusForbidden, "insufficient privileges")
 				return
 			}
