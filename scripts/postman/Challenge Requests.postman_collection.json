@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "746ce0e3-fdea-48ac-8e0d-43ca5a7068d3",
+		"name": "Challenge Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register Customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"firstName\": \"Tyler\",\n        \"lastName\": \"Keesling\",\n        \"username\": \"rsavage\",\n        \"password\": \"ohyeah\",\n        \"role\": \"customer\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log In",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"rsavage\",\n    \"password\": \"ohyeah\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Attestations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDM1MTkyOTIsImlhdCI6MTU0MzUxODk5MiwiaXNzIjoiY2hhbGxlbmdlIiwicm9sZSI6ImN1c3RvbWVyIn0.eUeL27c03bsBknbnF8fe9N-I2EI9aEygq8nZi7zZuDk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8083/attestations?fname=Tyler&lname=Keesling",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"attestations"
+					],
+					"query": [
+						{
+							"key": "fname",
+							"value": "Tyler"
+						},
+						{
+							"key": "lname",
+							"value": "Keesling"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Default Admin Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"bpechiney\",\n\t\"password\": \"letmein\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Privileged",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDM1MTk0NjMsImlhdCI6MTU0MzUxOTE2MywiaXNzIjoiY2hhbGxlbmdlIiwicm9sZSI6ImFkbWluaXN0cmF0b3IifQ.aow5zOZqRy1IF0zJLXRPQi9f7Mw-TpB0z1yzwqcCppA",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"firstName\": \"Michael\",\n        \"lastName\": \"Frendo\",\n        \"username\": \"mfrendo\",\n        \"password\": \"noneshallpassword\",\n        \"role\": \"administrator\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083/register-priv",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"register-priv"
+					]
+				},
+				"description": "Register an administrator or attestation authority."
+			},
+			"response": []
+		},
+		{
+			"name": "List Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDM1MTk1MDAsImlhdCI6MTU0MzUxOTIwMCwiaXNzIjoiY2hhbGxlbmdlIiwicm9sZSI6ImFkbWluaXN0cmF0b3IifQ.9VDor6OC9hzCBfk2oG-dAvo_Zud13gfXYCfh4C72rSM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8083/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Attestation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDM1MTk2MTAsImlhdCI6MTU0MzUxOTMxMCwiaXNzIjoiY2hhbGxlbmdlIiwicm9sZSI6ImFkbWluaXN0cmF0b3IifQ.doi4yVfCY5fUSSiFQOdweex0vXdVUgA13ih8R1PSvMA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"claimantId\": \"03b49ee9-de55-4a33-be40-75c152037e06\",\n\t\"attestorId\": \"45eb8a63-624b-4bb4-85f8-77fb498257c4\",\n\t\"claim\": \"I am awesome\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083/attestations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"attestations"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
