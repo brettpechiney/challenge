@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	configPaths = [...]string{".", "/apps/challenge"}
+	configPaths = [...]string{".", "/app/"}
 )
 
 func main() {
