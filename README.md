@@ -3,7 +3,27 @@ This is a simple authorization service written in Golang.
 
 ## Installation and Usage
 ### Installation
-Write me!
+1. Install [CockroachDB](https://www.cockroachlabs.com/docs/stable/install-cockroachdb-windows.html) for your system.
+2. Add the CockroachDB executable to your path if you haven't already.
+3. Now refer to the below section corresponding to your system.
+
+#### Windows
+1. Open a Powershell terminal and navigate to the project root.
+2. Run `.\start-db.ps1`
+3. After that completes, run `go run main.go`
+
+#### Mac or Linux
+1. Open a terminal
+2. Run `.\start-db.sh`
+3. After that completes, run `go run main.go`
+
+#### If that doesn't work
+1. Open a terminal.
+2. Run `cockroach start --insecure --listen-addr=localhost`.
+3. Open a new terminal.
+4. Navigate to the project root.
+5. Run `cockroach sql --insecure --host=localhost:26257 < ./scripts/sql/db.changelog-0.1.0.sql`.
+6. Run `go run main.go`.
 
 ### Usage
 1. Grab the Postman collection under `scripts/postman`
