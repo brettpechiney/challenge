@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  cockroach:
+    image: cockroachdb/cockroach:latest
+    command: start --insecure --listen-addr=0.0.0.0
+    ports:
+      - "8080:8080"
+      - "26257:26257"
+
+  go:
+    build:
+      context: .
+      dockerfile: docker/go/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - cockroach
+    container_name: auth-service
