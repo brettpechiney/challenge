@@ -1,35 +1,35 @@
 # challenge
-This is a simple authorization service written in Golang.
+This is an authorization service for a coding challenge.
 
-## Installation and Usage
-### Installation
-1. Install [CockroachDB](https://www.cockroachlabs.com/docs/stable/install-cockroachdb-windows.html) for your system.
-2. Add the CockroachDB executable to your path if you haven't already.
-3. Now refer to the below section corresponding to your system.
+## Setup and Usage
+### Setup
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop).
+2. Install [sql-migrate](https://github.com/rubenv/sql-migrate)
+3. Make sure you're running Go 1.11.x
 
 #### Windows
 1. Open a Powershell terminal and navigate to the project root.
-2. Run `.\start-db.ps1`
-3. After that completes, run `go run main.go`
+2. Execute `.\start.bat`
+3. After that completes, execute `go run main.go`
 
 #### Mac or Linux
+I don't have an environment in which to reliably test a shell script. Sorry.
 1. Open a terminal
-2. Run `.\start-db.sh`
-3. After that completes, run `go run main.go`
-
-#### If that doesn't work
-1. Open a terminal.
-2. Run `cockroach start --insecure --listen-addr=localhost`.
-3. Open a new terminal.
-4. Navigate to the project root.
-5. Run `cockroach sql --insecure --host=localhost:26257 < ./scripts/sql/db.changelog-0.1.0.sql`.
-6. Run `go run main.go`.
+2. From the project root, execute `docker-compose up cockroach`
+3. From the project root, execute `cd ./scripts/sql`
+3. Execute `sql-migrate up`
+4. Execute `cd ../..`
+5. Execute `go run main.go`
 
 ### Usage
-1. Grab the Postman collection under `scripts/postman`
+1. Grab the Postman collection under `tools/postman`
 2. Log in with the default admin (credentials below)
 3. Grab the JWT returned in the response body
 4. Make more requests. Subsequent JWTs will be in the response header.
+
+default admin:
+- username: `bpechiney`
+- password: `letmein`
 
 default admin:
 - username: `bpechiney`
