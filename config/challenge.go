@@ -71,7 +71,7 @@ func (i *Challenge) SigningKey() string {
 }
 
 func (i *Challenge) setDefaults() {
-	const Source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
+	const Source = "postgresql://root@localhost:26257/challenge?sslmode=disable"
 	const Level = "INFO"
 	const SigningKey = "supersecretkey"
 	i.v.SetDefault(param.DataSource, Source)

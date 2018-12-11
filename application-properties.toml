@@ -1,5 +1,5 @@
 [data]
-source = "postgresql://maxroach@localhost:26257/challenge?sslmode=disable"
+source = "postgresql://root@localhost:26257/challenge?sslmode=disable"
 
 [logging]
 level = "INFO"

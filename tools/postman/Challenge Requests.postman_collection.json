@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "746ce0e3-fdea-48ac-8e0d-43ca5a7068d3",
+		"_postman_id": "1c39cec2-274f-4399-ad90-165a9c5ca22e",
 		"name": "Challenge Requests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -29,36 +29,6 @@
 					"port": "8083",
 					"path": [
 						"signup"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Log In",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"username\": \"rsavage\",\n    \"password\": \"ohyeah\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8083/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8083",
-					"path": [
-						"login"
 					]
 				}
 			},
@@ -227,7 +197,7 @@
 					"raw": "{\n\t\"claimantId\": \"03b49ee9-de55-4a33-be40-75c152037e06\",\n\t\"attestorId\": \"45eb8a63-624b-4bb4-85f8-77fb498257c4\",\n\t\"claim\": \"I am awesome\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8083/attestations",
+					"raw": "http://localhost:8083/attestations?=",
 					"protocol": "http",
 					"host": [
 						"localhost"
